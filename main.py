@@ -1,33 +1,32 @@
 import wmi
 
 def get_pc_brand_model():
-    """
-    This function returns the device's brand and model information.
-    """
     c = wmi.WMI()
-    system_info = c.Win32_ComputerSystem()[0]
+    cs = c.Win32_ComputerSystem()[0]
+    return cs.Manufacturer, cs.Model
 
-    brand = system_info.Manufacturer
-    model = system_info.Model
-
-    print(f"Marka: {brand}")
-    print(f"Model: {model}")
-
-get_pc_brand_model()
+def get_serial_number():
+    c = wmi.WMI()
+    bios = c.Win32_BIOS()[0]
+    return bios.SerialNumber
 
 if __name__ == "__main__":
     print("Welcome to the Device Info App\n")
-    print("1 - Show Device Brand and Model\n")
+    print("1 - Show Device Brand and Model")
+    print("2 - Show Device Serial Number\n")
 
-    choice = input("Press 1 to continue: ")
+    choice = input("Press 1 or 2 to continue: ")
 
     if choice == "1":
         brand, model = get_pc_brand_model()
-        print("\nDevice Brand and Model:\n")
-        print(f"Brand : {brand}")
-        print(f"Model : {model}")
-    else:
-        print("\nInvalid choice. Please run the program again.")
+        print("\nBrand:", brand)
+        print("Model:", model)
 
-    print("\nPress Enter to exit...")
-    input()
+    elif choice == "2":
+        serial = get_serial_number()
+        print("\nSerial Number:", serial)
+
+    else:
+        print("\nInvalid choice")
+
+    input("\nPress Enter to exit...")
