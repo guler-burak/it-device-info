@@ -23,6 +23,13 @@ def get_ip_address():
     IPAddr = socket.gethostbyname(hostname)
     return hostname, IPAddr
 
+def get_mac_address():
+    c = wmi.WMI()
+    for interface in c.Win32_NetworkAdapterConfiguration(IPEnabled=1):
+        adapter_name = interface.Description
+        mac = interface.MACAddress
+        return adapter_name, mac
+
 
 if __name__ == "__main__":
     print("Welcome to the Device Info App\n")
@@ -31,7 +38,7 @@ if __name__ == "__main__":
     print("3 - Show Last Reboot Time")
     print("4 - Show IP Address\n")
 
-    choice = input("Press 1, 2, 3 or 4 to continue: ")
+    choice = input("Press 1, 2, 3, 4 or 5 to continue:")
 
     if choice == "1":
         brand, model = get_pc_brand_model()
@@ -50,6 +57,12 @@ if __name__ == "__main__":
         hostname, ip = get_ip_address()
         print("\nHostname:", hostname)
         print("IP Address:", ip)
+    
+    elif choice == "5":
+        name, mac = get_mac_address()
+        print("\nAdapter Name:", name)
+        print("MAC Address:", mac)
+
 
     else:
         print("\nInvalid choice")
