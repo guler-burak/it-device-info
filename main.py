@@ -1,5 +1,6 @@
 import wmi
 import psutil
+import socket
 from datetime import datetime
 
 def get_pc_brand_model():
@@ -17,15 +18,20 @@ def last_reboot():
     dt = datetime.fromtimestamp(t)
     return dt.strftime("%Y-%m-%d %H:%M:%S")
 
+def get_ip_address():
+    hostname = socket.gethostname()
+    IPAddr = socket.gethostbyname(hostname)
+    return hostname, IPAddr
+
 
 if __name__ == "__main__":
     print("Welcome to the Device Info App\n")
     print("1 - Show Device Brand and Model")
-    print("2 - Show Device Serial Number\n")
-    print("3 - Show Last Reboot Time\n")
-    
+    print("2 - Show Device Serial Number")
+    print("3 - Show Last Reboot Time")
+    print("4 - Show IP Address\n")
 
-    choice = input("Press 1, 2 or 3 to continue: ")
+    choice = input("Press 1, 2, 3 or 4 to continue: ")
 
     if choice == "1":
         brand, model = get_pc_brand_model()
@@ -39,6 +45,11 @@ if __name__ == "__main__":
     elif choice == "3":
         reboot = last_reboot()
         print("\nReboot Time:", reboot)
+
+    elif choice == "4":
+        hostname, ip = get_ip_address()
+        print("\nHostname:", hostname)
+        print("IP Address:", ip)
 
     else:
         print("\nInvalid choice")
